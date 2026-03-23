@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Vincent van Gogh - Họa sĩ thiên tài</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: white;       /* nền trắng toàn trang */
+      font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      line-height: 1.5;
+      color: #1e1e2a;
+      scroll-behavior: smooth;
+    }
+
+    /* Phần trên cùng màu vàng: header và navigation */
+    .top-yellow {
+      background-color: #F9E45B;    /* màu vàng ấm, tươi sáng */
+      padding: 1.5rem 2rem 1rem 2rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Tiêu đề chính */
+    .main-title {
+      font-size: 2.8rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: #1f2a2e;
+      margin-bottom: 0.75rem;
+      text-align: center;
+      border-left: 5px solid #e67e22;
+      padding-left: 20px;
+      text-shadow: 1px 1px 0 rgba(0,0,0,0.05);
+    }
+
+    /* Navigation buttons */
+    .nav-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.8rem;
+      margin-top: 1.2rem;
+    }
+
+    .nav-btn {
+      background: #2c3e2f;
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 40px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      font-family: inherit;
+    }
+
+    .nav-btn:hover {
+      background: #e67e22;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    }
+
+    .nav-btn:active {
+      transform: translateY(1px);
+    }
+
+    /* main content */
+    main {
+      background: white;
+    }
+
+    section {
+      scroll-margin-top: 1.8rem;
+      margin-bottom: 3.5rem;
+      border-bottom: 1px solid #ececec;
+      padding-bottom: 2rem;
+    }
+
+    section:last-child {
+      border-bottom: none;
+    }
+
+    /* Tiêu đề của từng phần: to hơn nội dung, in đậm */
+    .section-title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin: 1.2rem 0 1rem 0;
+      color: #2c3e2f;
+      border-left: 6px solid #F9E45B;
+      padding-left: 1rem;
+      letter-spacing: -0.3px;
+    }
+
+    /* Nội dung văn bản */
+    .content-text {
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: #2d3436;
+      margin-bottom: 1.2rem;
+      text-align: justify;
+    }
+
+    /* khu vực ảnh tác phẩm tiêu biểu - có đánh dấu rõ ràng */
+    .artwork-gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: center;
+      margin: 2rem 0 1.2rem 0;
+    }
+
+    .art-card {
+      flex: 1 1 280px;
+      background: #fefaf5;
+      border-radius: 24px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      transition: transform 0.2s ease;
+      border: 1px solid #f0e2c5;
+    }
+
+    .art-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .image-placeholder-marker {
+      position: relative;
+      background: #faf3e0;
+    }
+
+    /* badge đánh dấu vị trí chèn ảnh */
+    .img-marker-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: #e67e22cc;
+      backdrop-filter: blur(4px);
+      color: white;
+      font-size: 0.7rem;
+      font-weight: bold;
+      padding: 4px 8px;
+      border-radius: 30px;
+      letter-spacing: 0.5px;
+      z-index: 2;
+      pointer-events: none;
+      font-family: monospace;
+    }
+
+    .art-card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      display: block;
+      transition: all 0.3s;
+      border-bottom: 3px solid #F9E45B;
+    }
+
+    .art-info {
+      padding: 1rem 1rem 1.2rem;
+    }
+
+    .art-info h3 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      color: #2c3e2f;
+    }
+
+    .art-info p {
+      font-size: 0.9rem;
+      color: #5d6e5a;
+    }
+
+    .marker-note {
+      background: #fff4e0;
+      padding: 0.4rem 0.8rem;
+      border-radius: 40px;
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #b45f1b;
+      margin-top: 0.5rem;
+      border: 1px dashed #e67e22;
+    }
+
+    /* khu vực video - tác phẩm thời hiện đại, đánh dấu rõ */
+    .modern-video-section {
+      background: #fefcf6;
+      border-radius: 32px;
+      padding: 1.5rem;
+      margin: 1.8rem 0 1rem;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.05);
+      border: 1px solid #f7e8cf;
+    }
+
+    .video-marker {
+      position: relative;
+      background: #1e1e2a0c;
+      border-radius: 28px;
+      overflow: hidden;
+    }
+
+    .video-badge {
+      position: absolute;
+      top: 15px;
+      left: 20px;
+      background: #000000aa;
+      backdrop-filter: blur(6px);
+      color: #F9E45B;
+      padding: 5px 14px;
+      border-radius: 40px;
+      font-weight: bold;
+      font-size: 0.8rem;
+      font-family: monospace;
+      z-index: 10;
+      letter-spacing: 0.5px;
+      pointer-events: none;
+      border-left: 3px solid #F9E45B;
+    }
+
+    .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 */
+      height: 0;
+      overflow: hidden;
+      border-radius: 24px;
+    }
+
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 20px;
+      border: none;
+    }
+
+    .modern-text {
+      margin-top: 1.4rem;
+    }
+
+    hr {
+      margin: 1rem 0;
+      border: 0;
+      height: 1px;
+      background: linear-gradient(90deg, #F9E45B, transparent);
+    }
+
+    footer {
+      background-color: #f9f3e2;
+      text-align: center;
+      padding: 2rem 1rem;
+      margin-top: 2rem;
+      font-size: 0.85rem;
+      color: #4b5e47;
+      border-top: 2px solid #F9E45B;
+    }
+
+    /* responsive */
+    @media (max-width: 768px) {
+      .main-title {
+        font-size: 2rem;
+        padding-left: 12px;
+      }
+      .section-title {
+        font-size: 1.8rem;
+      }
+      .nav-btn {
+        padding: 0.4rem 1rem;
+        font-size: 0.85rem;
+      }
+      .art-card img {
+        height: 190px;
+      }
+      .container {
+        padding: 0 1rem;
+      }
+      .top-yellow {
+        padding: 1rem 1rem 0.8rem;
+      }
+    }
+
+    /* nút home đặc biệt */
+    .home-btn {
+      background: #b45f1b;
+    }
+    .home-btn:hover {
+      background: #e67e22;
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-yellow">
+  <div class="container">
+    <h1 class="main-title">🎨 VINCENT VAN GOGH<br><span style="font-size: 1.3rem; font-weight: 500;">Biểu tượng của cảm xúc và ánh sáng</span></h1>
+    <!-- Hệ thống nút bấm: HOME và các phần tương ứng -->
+    <div class="nav-buttons">
+      <button class="nav-btn home-btn" id="homeBtn">🏠 HOME</button>
+      <button class="nav-btn" data-section="tieuSu">📜 Tiểu sử</button>
+      <button class="nav-btn" data-section="tacPhamTieuBieu">🖼️ Tác phẩm tiêu biểu</button>
+      <button class="nav-btn" data-section="dongGop">✨ Đóng góp cho hội họa</button>
+      <button class="nav-btn" data-section="thoiHienDai">⚡ Thời hiện đại</button>
+    </div>
+  </div>
+</div>
+
+<main>
+  <div class="container">
+    <!-- 1. TIỂU SỬ -->
+    <section id="tieuSu">
+      <h2 class="section-title">📖 Tiểu sử nghệ sĩ</h2>
+      <div class="content-text">
+        <p><strong>Vincent Willem van Gogh</strong> (30 tháng 3 năm 1853 – 29 tháng 7 năm 1890) là danh họa Hậu Ấn tượng người Hà Lan. 
+        Sinh ra tại Zundert, ông bắt đầu vẽ từ cuối tuổi 20 và sáng tác hơn 2.100 tác phẩm, bao gồm 860 tranh sơn dầu, chỉ trong hơn một thập kỷ. 
+        Dù ít được công nhận khi còn sống, ông đã để lại dấu ấn với phong cách bút pháp mạnh mẽ, màu sắc cảm xúc và chủ đề gần gũi với thiên nhiên, con người. 
+        Những năm tháng cuối đời ở Arles, Saint-Rémy và Auvers-sur-Oise chứng kiến sự bùng nổ sáng tạo với các kiệt tác bất hủ. 
+        Cuộc đời đầy biến động nhưng ngọn lửa nghệ thuật của Van Gogh chưa bao giờ tắt, trở thành nguồn cảm hứng vô tận cho thế hệ sau.</p>
+      </div>
+    </section>
+
+    <!-- 2. TÁC PHẨM TIÊU BIỂU - CÓ ĐÁNH DẤU VÙNG CHÈN ẢNH (hình ảnh thực tế + chú thích marker) -->
+    <section id="tacPhamTieuBieu">
+      <h2 class="section-title">🖌️ Tác phẩm tiêu biểu</h2>
+      <div class="content-text">
+        <p>Những tác phẩm để đời của Van Gogh không chỉ nổi bật về kỹ thuật mà còn thể hiện chiều sâu nội tâm. Dưới đây là ba kiệt tác tiêu biểu — 
+        <strong>khu vực này được đánh dấu để chèn ảnh minh họa các tác phẩm (đã tích hợp sẵn hình ảnh chất lượng cao và vị trí nhận diện dễ dàng thay thế).</strong></p>
+      </div>
+      <!-- Gallery ảnh: vừa hiển thị ảnh vừa có badge đánh dấu vị trí chèn ảnh -->
+      <div class="artwork-gallery">
+        <!-- Ảnh 1: Starry Night -->
+        <div class="art-card">
+          <div class="image-placeholder-marker">
+            <span class="img-marker-badge">📸 VÙNG CHÈN ẢNH</span>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1024px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg" 
+                 alt="Starry Night của Van Gogh" loading="lazy">
+          </div>
+          <div class="art-info">
+            <h3>🌟 Starry Night (1889)</h3>
+            <p>Siêu phẩm vẽ bầu trời xoáy cuộn đầy mộng mơ, hiện được trưng bày tại MoMA, New York.</p>
+            <div class="marker-note">📍 Điểm chèn ảnh tiêu biểu #1</div>
+          </div>
+        </div>
+        <!-- Ảnh 2: Hoa hướng dương -->
+        <div class="art-card">
+          <div class="image-placeholder-marker">
+            <span class="img-marker-badge">📸 VÙNG CHÈN ẢNH</span>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Vincent_Willem_van_Gogh_128.jpg/1024px-Vincent_Willem_van_Gogh_128.jpg" 
+                 alt="Hoa hướng dương Van Gogh" loading="lazy">
+          </div>
+          <div class="art-info">
+            <h3>🌻 Hoa hướng dương (Sunflowers, 1888)</h3>
+            <p>Biểu tượng của niềm hy vọng và tình bạn, nổi tiếng với gam vàng rực rỡ.</p>
+            <div class="marker-note">📍 Điểm chèn ảnh tiêu biểu #2</div>
+          </div>
+        </div>
+        <!-- Ảnh 3: Quán cà phê về đêm -->
+        <div class="art-card">
+          <div class="image-placeholder-marker">
+            <span class="img-marker-badge">📸 VÙNG CHÈN ẢNH</span>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Vincent_van_Gogh_-_Caf%C3%A9_Terrace_at_Night_%289%29.jpg/1024px-Vincent_van_Gogh_-_Caf%C3%A9_Terrace_at_Night_%289%29.jpg" 
+                 alt="Café Terrace at Night" loading="lazy">
+          </div>
+          <div class="art-info">
+            <h3>☕ Café Terrace at Night (1888)</h3>
+            <p>Không gian Arles lung linh dưới ánh đèn, màu sắc tương phản đầy cảm xúc.</p>
+            <div class="marker-note">📍 Điểm chèn ảnh tiêu biểu #3</div>
+          </div>
+        </div>
+      </div>
+      <p style="font-size: 0.85rem; background: #fef2e0; padding: 6px 12px; border-radius: 40px; display: inline-block;"><span style="font-weight:bold;">🔖 Lưu ý:</span> Các khung ảnh trên đã được đánh dấu “VÙNG CHÈN ẢNH”, bạn có thể dễ dàng thay thế link ảnh hoặc thêm mới theo ý muốn.</p>
+    </section>
+
+    <!-- 3. ĐÓNG GÓP CHO HỘI HỌA THẾ GIỚI -->
+    <section id="dongGop">
+      <h2 class="section-title">🌍 Đóng góp cho hội họa thế giới</h2>
+      <div class="content-text">
+        <p>Vincent van Gogh được xem là một trong những người đặt nền móng cho nghệ thuật hiện đại. Những đóng góp mang tính cách mạng bao gồm:</p>
+        <ul style="margin: 1rem 0 1rem 1.8rem; line-height: 1.6;">
+          <li><strong>🖌️ Biểu đạt cảm xúc qua màu sắc & nét vẽ</strong> – Ông sử dụng màu sắc để truyền tải trạng thái nội tâm, thoát khỏi khuôn mẫu hiện thực thuần túy.</li>
+          <li><strong>⚡ Tiên phong cho trường phái Biểu hiện (Expressionism) & Fauvism</strong> – Ảnh hưởng sâu rộng đến các danh họa như Edvard Munch, Matisse, và các nghệ sĩ thế kỷ 20.</li>
+          <li><strong>🎨 Kỹ thuật Impasto dày & bút pháp xoáy</strong> – Tạo chiều sâu và chuyển động độc đáo, mở đường cho nghệ thuật trừu tượng sau này.</li>
+          <li><strong>📖 Giá trị nhân văn qua chủ đề người lao động, thiên nhiên</strong> – Nâng tầm vẻ đẹp đời thường, khẳng định nghệ thuật không phân biệt cao sang.</li>
+        </ul>
+        <p>Dù chỉ hoạt động nghệ thuật trong hơn 10 năm, di sản của ông đã thay đổi hoàn toàn dòng chảy hội họa phương Tây, được vinh danh là một trong những nghệ sĩ vĩ đại nhất mọi thời đại.</p>
+      </div>
+    </section>
+
+    <!-- 4. TÁC PHẨM CỦA VAN GOGH TRONG THỜI HIỆN ĐẠI - CÓ ĐÁNH DẤU VÙNG CHÈN VIDEO -->
+    <section id="thoiHienDai">
+      <h2 class="section-title">📺 Van Gogh trong thời hiện đại</h2>
+      <div class="content-text">
+        <p>Ngày nay, tinh thần và hình tượng Van Gogh vượt xa khuôn khổ bảo tàng. Từ phim ảnh, thời trang, triển lãm sống động (immersive exhibitions) cho đến nghệ thuật đường phố, 
+        tác phẩm của ông tiếp tục được tôn vinh và tái sinh trong nền văn hóa đương đại. Dưới đây là khu vực <strong>đã đánh dấu để chèn video</strong> minh họa ảnh hưởng 
+        của ông trong thế giới nghệ thuật ngày nay.</p>
+      </div>
+
+      <!-- Vùng chèn video có badge rõ ràng -->
+      <div class="modern-video-section">
+        <div class="video-marker">
+          <span class="video-badge">🎥 VÙNG CHÈN VIDEO — TÁC PHẨM & ẢNH HƯỞNG HIỆN ĐẠI</span>
+          <div class="video-wrapper">
+            <!-- Embed video YouTube chất lượng, nội dung về Van Gogh và ảnh hưởng đương đại (Triển lãm immersive, văn hóa hiện đại) 
+                 Sử dụng video từ Van Gogh Museum / tổng hợp về "Van Gogh's Modern Influence" -->
+            <iframe src="https://www.youtube.com/embed/ubTJI2MlNGA" 
+                    title="Van Gogh Museum - Ảnh hưởng và di sản trong thời đại mới" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+            </iframe>
+          </div>
+          <div class="modern-text">
+            <p style="font-weight: 500; margin-top: 0.8rem;">🎬 Video: "Van Gogh – Di sản sống trong nghệ thuật đương đại" (Nguồn: Van Gogh Museum & các triển lãm kỹ thuật số).</p>
+            <div class="marker-note" style="background:#eae0cf;">📌 Khu vực này được thiết kế sẵn để thay thế / chèn video khác dễ dàng. Badge "VÙNG CHÈN VIDEO" giúp nhận diện vị trí insert.</div>
+          </div>
+        </div>
+        <hr>
+        <div class="content-text">
+          <p>✨ <strong>Thời hiện đại, Van Gogh hiện diện qua:</strong> phim hoạt hình <em>Loving Vincent</em> (2017) với 65.000 bức tranh sơn dầu, 
+          các chương trình chiếu ánh sáng 3D Mapping, bộ sưu tập thời trang lấy cảm hứng từ "Starry Night" và những cuộc đấu giá kỷ lục. 
+          Ngôn ngữ nghệ thuật của ông vẫn được các nghệ sĩ trẻ khai phá, chứng minh sức sống bất diệt.</p>
+        </div>
+      </div>
+      <!-- thêm một dòng ghi chú bổ sung về vị trí video -->
+      <p style="font-size: 0.85rem; border-left: 4px solid #F9E45B; padding-left: 12px; margin: 1rem 0 0.5rem;">
+        💡 <strong>Ghi chú dành cho người dùng:</strong> Đoạn video trên có thể thay bằng bất kỳ đường dẫn nhúng YouTube/Vimeo nào liên quan đến chủ đề "Van Gogh & thời hiện đại". Đây là vị trí chèn video theo yêu cầu.
+      </p>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    <p>© 2025 Tưởng nhớ Vincent van Gogh — Ngọn lửa nghệ thuật bất diệt | Trang web được tạo với tình yêu dành cho hội họa.</p>
+    <p style="margin-top: 0.5rem;">✨ Các hình ảnh tác phẩm thuộc phạm vi công cộng, video minh họa ảnh hưởng đương đại. ✨</p>
+  </div>
+</footer>
+
+<script>
+  // Chức năng cuộn mượt đến các phần tương ứng (hỗ trợ nút bấm)
+  // Không cần phức tạp, nhưng đảm bảo home và các section đều hoạt động
+  (function() {
+    const homeBtn = document.getElementById('homeBtn');
+    const allSectionBtns = document.querySelectorAll('.nav-btn[data-section]');
+    
+    // Home: cuộn về đầu trang
+    if (homeBtn) {
+      homeBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+    
+    // Xử lý từng nút có data-section
+    allSectionBtns.forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        const sectionId = this.getAttribute('data-section');
+        if (sectionId) {
+          const targetSection = document.getElementById(sectionId);
+          if (targetSection) {
+            targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }
+      });
+    });
+    
+    // Đảm bảo nếu có bất kỳ thay đổi về hash, vẫn hỗ trợ (tùy chọn)
+    // Ngoài ra không ảnh hưởng đến trải nghiệm
+  })();
+</script>
+</body>
+</html>
